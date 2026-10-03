@@ -1,0 +1,74 @@
+---
+const leftLinks = [
+    { label: 'MENU',     href: 'https://ae.dyneapp.io/menu/sopd/285829b0-5e4b-11f0-a785-c55a8f5bd3a2/rest/285829b0-5e4b-11f0-a785-c55a8f5bd3a2' },
+  { label: 'DELIVERY', href: '#delivery' },
+];
+
+const rightLinks = [
+  { label: 'LOCATION', href: 'https://www.google.com/search?client=safari&sa=X&sca_esv=f620f31ac399600c&hl=en-ae&biw=430&bih=739&sxsrf=ADLYWIJPC38zQfgoZzbyY-Sjdd8AdjQBLw:1735238156478&kgmid=/g/11wxcr_248&q=Baitna+Cafe&shndl=30&source=sh/x/loc/act/m1/3&kgs=e871c2534124e751' },
+  { label: 'EVENTS',   href: '#events' },
+];
+
+const allLinks = [...leftLinks, ...rightLinks];
+---
+
+<nav class="relative z-10 mx-4 mt-6 flex max-w-6xl items-center justify-between rounded-md bg-black/40 px-6 py-5 text-cream backdrop-blur-sm md:mx-auto md:px-10">
+  <ul class="hidden flex-1 gap-10 text-xl tracking-[0.25em] md:flex">
+    {leftLinks.map((link) => (
+      <li><a href={link.href} class="transition-colors hover:text-sand">{link.label}</a></li>
+    ))}
+  </ul>
+  <a href="/" class="font-display text-xl tracking-[0.35em] md:text-2xl">BAITNA CAFE</a>
+  <ul class="hidden flex-1 justify-end gap-10 text-xl tracking-[0.25em] md:flex">
+    {rightLinks.map((link) => (
+      <li><a href={link.href} class="transition-colors hover:text-sand">{link.label}</a></li>
+    ))}
+  </ul>
+
+  <!-- Hamburger button (mobile only) -->
+  <button
+    id="menu-open"
+    type="button"
+    class="md:hidden"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+  >
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  </button>
+</nav>
+
+<!-- Full-screen mobile menu -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-50 hidden flex-col items-center justify-center gap-8 bg-coffee text-cream md:hidden"
+>
+  <button id="menu-close" type="button" class="absolute right-6 top-6" aria-label="Close menu">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+
+  {allLinks.map((link) => (
+    <a href={link.href} class="text-lg tracking-[0.3em]">{link.label}</a>
+  ))}
+</div>
+
+<script>
+  const openBtn = document.getElementById('menu-open');
+  const closeBtn = document.getElementById('menu-close');
+  const menu = document.getElementById('mobile-menu');
+
+  function setMenu(open: boolean) {
+    menu?.classList.toggle('hidden', !open);
+    menu?.classList.toggle('flex', open);
+    openBtn?.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : ''; // stop page scrolling behind the menu
+  }
+
+  openBtn?.addEventListener('click', () => setMenu(true));
+  closeBtn?.addEventListener('click', () => setMenu(false));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+</script>

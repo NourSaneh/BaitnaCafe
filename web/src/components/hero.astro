@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import herobg from '../assets/herobg.jpg';
+import Nav from './nav.astro';
+---
+
+<header class="relative h-[90vh] min-h-[560px]">
+    <Image
+     src={herobg}
+     alt="Baitna Cafe interior overlooking Sharjah"
+     width={1920}
+     quality={90}
+     loading="eager"
+     class="absolute inset-0 h-full w-full object-cover"
+   />
+  <div class="absolute inset-0 bg-black/15"></div>
+
+  <Nav />
+</header>
