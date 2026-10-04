@@ -1,19 +1,194 @@
 ---
 import { Image } from 'astro:assets';
 import herobg from '../assets/herobg.jpg';
+import cloudMatcha from '../assets/cloud-Matcha.png';
+import chocolateDrink from '../assets/chocolatedrink.png';
+import sandwich from '../assets/sandwich.png';
 import Nav from './nav.astro';
+
+const locationUrl =
+  'https://www.google.com/search?client=safari&sa=X&sca_esv=f620f31ac399600c&hl=en-ae&biw=430&bih=739&sxsrf=ADLYWIJPC38zQfgoZzbyY-Sjdd8AdjQBLw:1735238156478&kgmid=/g/11wxcr_248&q=Baitna+Cafe&shndl=30&source=sh/x/loc/act/m1/3&kgs=e871c2534124e751';
+
+// Add more drinks here — the arrows will cycle through all of them
+
+const drinks = [
+  { src: cloudMatcha, alt: 'Iced cloud matcha' },
+  { src: chocolateDrink, alt: 'Iced chocolate' },
+  { src: sandwich, alt: 'Grilled halloumi sandwich' },
+];
 ---
 
 <header class="relative h-[90vh] min-h-[560px]">
-    <Image
-     src={herobg}
-     alt="Baitna Cafe interior overlooking Sharjah"
-     width={1920}
-     quality={90}
-     loading="eager"
-     class="absolute inset-0 h-full w-full object-cover"
-   />
+  <!-- Background photo -->
+  <Image
+    src={herobg}
+    alt="Baitna Cafe interior overlooking Sharjah"
+    width={1920}
+    quality={90}
+    loading="eager"
+    class="absolute inset-0 h-full w-full object-cover"
+  />
   <div class="absolute inset-0 bg-black/15"></div>
 
   <Nav />
+
+  <!-- Buttons -->
+  <a
+    href={locationUrl}
+    target="_blank"
+    rel="noopener"
+    class="absolute bottom-28 left-4 z-10 rounded-sm bg-black/40 px-6 py-3 text-sm tracking-[0.25em] text-cream backdrop-blur-sm transition-colors hover:bg-black/60 md:bottom-10 md:left-10 md:px-10 md:py-4"
+  >
+    VISIT US
+  </a>
+
+  <a
+    href="#delivery"
+    class="absolute bottom-28 right-4 z-10 rounded-sm bg-black/40 px-6 py-3 text-sm tracking-[0.25em] text-cream backdrop-blur-sm transition-colors hover:bg-black/60 md:bottom-10 md:right-10 md:px-10 md:py-4"
+  >
+    ORDER NOW
+  </a>
+
+  <!-- Circle with the drink slider -->
+  <div
+    class="absolute bottom-0 left-1/2 z-20 flex h-64 w-64 -translate-x-1/2 translate-y-2/3 items-center justify-center rounded-full bg-[#E8D5BF] md:h-[420px] md:w-[420px]"
+  >
+    <!-- Drinks (stacked on top of each other, only one visible) — gently floats -->
+    <div class="float relative aspect-square w-[75%]">
+      {drinks.map((drink, i) => (
+        <Image
+          src={drink.src}
+          alt={drink.alt}
+          width={800}
+          loading="eager"
+          data-drink
+          class:list={[
+            'absolute inset-0 h-full w-full object-contain drop-shadow-xl',
+            i === 0 ? 'opacity-100' : 'opacity-0',
+          ]}
+        />
+      ))}
+    </div>
+
+    <!-- Arrow ring (rotates around the circle on click) -->
+    <div id="arrow-ring" class="pointer-events-none absolute inset-0">
+      <!-- Sway layer (gentle idle rocking) -->
+      <div class="sway absolute inset-0">
+        <!-- Next arrow -->
+        <button
+          id="drink-next"
+          type="button"
+          aria-label="Next drink"
+          class="pointer-events-auto absolute right-[6%] top-[14%] text-white/80 transition hover:scale-110 hover:text-white"
+        >
+          <svg class="h-16 w-16 md:h-24 md:w-24" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M6 4 A14 14 0 0 1 20 18" />
+            <path d="M20 18 L17 14.5 M20 18 L23 14.5" />
+          </svg>
+        </button>
+
+        <!-- Previous arrow -->
+        <button
+          id="drink-prev"
+          type="button"
+          aria-label="Previous drink"
+          class="pointer-events-auto absolute bottom-[14%] left-[6%] text-white/80 transition hover:scale-110 hover:text-white"
+        >
+          <svg class="h-16 w-16 rotate-180 md:h-24 md:w-24" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M6 4 A14 14 0 0 1 20 18" />
+            <path d="M20 18 L17 14.5 M20 18 L23 14.5" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </header>
+
+<script>
+  const drinks = document.querySelectorAll<HTMLElement>('[data-drink]');
+  const ring = document.getElementById('arrow-ring');
+  const nextBtn = document.getElementById('drink-next');
+  const prevBtn = document.getElementById('drink-prev');
+
+  let current = 0;
+  let animating = false;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const speed = reduceMotion ? 0 : 1;
+
+  // Arrows travel half a turn around the circle
+  function orbit(dir: 1 | -1) {
+    ring?.animate(
+      [
+        { transform: 'rotate(0deg)' },
+        { transform: `rotate(${180 * dir}deg)` },
+      ],
+      { duration: 750 * speed, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' }
+      // no "fill" → it snaps back to 0° at the end, which looks identical
+    );
+  }
+
+  function show(dir: 1 | -1) {
+    if (animating) return;
+    animating = true;
+
+    const outgoing = drinks[current];
+    current = (current + dir + drinks.length) % drinks.length;
+    const incoming = drinks[current];
+
+    outgoing.animate(
+      [
+        { opacity: 1, transform: 'rotate(0deg) scale(1)' },
+        { opacity: 0, transform: `rotate(${50 * dir}deg) scale(0.6)` },
+      ],
+      { duration: 450 * speed, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'forwards' }
+    );
+
+    const enter = incoming.animate(
+      [
+        { opacity: 0, transform: `rotate(${-50 * dir}deg) scale(0.6)` },
+        { opacity: 1, transform: 'rotate(0deg) scale(1)' },
+      ],
+      { duration: 600 * speed, delay: 150 * speed, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.2)', fill: 'forwards' }
+    );
+
+    enter.onfinish = () => (animating = false);
+  }
+
+  nextBtn?.addEventListener('click', () => {
+    if (animating) return;
+    orbit(1);
+    show(1);
+  });
+
+  prevBtn?.addEventListener('click', () => {
+    if (animating) return;
+    orbit(-1);
+    show(-1);
+  });
+</script>
+
+<style>
+  /* Only animate for people who haven't turned off motion in their settings */
+  @media (prefers-reduced-motion: no-preference) {
+    .sway {
+      animation: sway 5s ease-in-out infinite;
+    }
+
+    .float {
+      animation: float 4s ease-in-out infinite;
+    }
+  }
+
+  /* Arrows rock gently around the circle */
+  @keyframes sway {
+    0%, 100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+  }
+
+  /* Drink bobs up and down */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+</style>
