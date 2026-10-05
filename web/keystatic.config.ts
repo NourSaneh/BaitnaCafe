@@ -1,13 +1,19 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'cloud',
-  },
+  // Live site → Keystatic Cloud (saves to GitHub)
+  // Your computer → local files (for testing)
+  storage: import.meta.env.PROD
+    ? { kind: 'cloud', pathPrefix: 'web' }
+    : { kind: 'local' },
+
   cloud: {
     project: 'nour-saneh/baitnacafe',
   },
 
+  ui: {
+    brand: { name: 'Baitna Cafe' },
+  },
 
   collections: {
     events: collection({
