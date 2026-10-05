@@ -7,8 +7,7 @@ export default config({
   cloud: {
     project: 'nour-saneh/baitnacafe',
   },
-  ...
-})
+
 
   collections: {
     events: collection({
