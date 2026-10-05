@@ -1,11 +1,14 @@
 import { config, fields, collection } from '@keystatic/core';
 
 export default config({
-  storage: { kind: 'local' },
-
-  ui: {
-    brand: { name: 'Baitna Cafe' },
+  storage: {
+    kind: 'cloud',
   },
+  cloud: {
+    project: 'nour-saneh/baitnacafe',
+  },
+  ...
+})
 
   collections: {
     events: collection({
