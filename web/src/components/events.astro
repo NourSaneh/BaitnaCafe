@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const today = new Date();
+
+const events = (await getCollection('events'))
+  .filter(({ data }) => !data.endDate || data.endDate >= today) // hide finished events
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+---
+
+<section id="events" class="bg-[#EDE6DD] py-20">
+  <div class="mx-auto max-w-6xl px-4 md:px-10">
+    <!-- Heading -->
+    <div class="text-center">
+      <p class="text-xs uppercase tracking-[0.3em] text-neutral-700">What's happening</p>
+      <h2 class="font-display mt-2 text-5xl tracking-[0.15em] text-neutral-900 md:text-7xl">AT BAITNA</h2>
+      <p class="mt-2 text-sm uppercase tracking-[0.25em] text-neutral-700">The best rooftop café</p>
+    </div>
+
+    <!-- Cards -->
+    <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      {events.map(({ data }) => (
+        <article class="flex flex-col">
+          <Image
+            src={data.image}
+            alt={data.title}
+            width={600}
+            class="aspect-[4/5] w-full rounded-2xl object-cover"
+          />
+
+          <p class="mt-4 text-xs uppercase tracking-[0.2em] text-amber-600">{data.dateLabel}</p>
+          <h3 class="mt-1 text-lg tracking-wide text-neutral-900">{data.title}</h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-neutral-700">{data.description}</p>
+
+          {data.bookingUrl && (
+            <a
+              href={data.bookingUrl}
+              target="_blank"
+              rel="noopener"
+              class="mt-5 self-start rounded-full bg-white px-8 py-3 text-sm tracking-[0.15em] text-neutral-900 shadow-sm transition hover:bg-neutral-900 hover:text-white"
+            >
+              Book Now
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+
+    {events.length === 0 && (
+      <p class="mt-12 text-center text-neutral-600">New events coming soon — stay tuned!</p>
+    )}
+  </div>
+</section>
