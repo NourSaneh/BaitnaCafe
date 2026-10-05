@@ -1,0 +1,152 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+
+// ---- Edit café details here ----
+const address = '30th floor, Tabark Tower, Al Mamzar, Sharjah';
+const mapQuery = encodeURIComponent('Tabark Tower, Al Mamzar, Sharjah');
+
+const phone = '+971 50 000 0000';          // replace
+const whatsapp = '971500000000';           // replace, digits only
+const email = 'hello@baitnacafe.com';      // replace
+
+const hours = [
+  { days: 'Sat – Thu', time: '8am – 12am' }, // replace with real hours
+  { days: 'Friday', time: '2pm – 1am' },
+];
+
+const pages = [
+  { label: 'Home', href: '/' },
+  { label: 'Menu', href: '/#menu' },
+  { label: 'Events', href: '/#events' },
+  { label: 'Spaces', href: '/#spaces' },
+];
+
+const orderApps = [
+  { label: 'Drivu (drive thru)', href: 'https://drivu.com' }, // replace with Baitna's links
+  { label: 'Beanz (delivery)', href: '#' },
+  { label: 'noon (delivery)', href: '#' },
+];
+
+const linkClass = 'underline-offset-4 hover:underline';
+---
+
+<footer class="mt-16 bg-[#ecd5b3] text-black">
+  <div class="mx-auto max-w-[1200px] px-6 pt-12 pb-6">
+
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.1fr_1.3fr] lg:gap-0">
+
+      <!-- Hours + call -->
+      <div class="lg:pr-8">
+        <p class="mb-4 tracking-[0.15em]">Opening hours</p>
+        <dl class="grid w-fit grid-cols-[auto_auto] gap-x-8 gap-y-1.5 text-sm">
+          {hours.map((h) => (
+            <>
+              <dt>{h.days}</dt>
+              <dd>{h.time}</dd>
+            </>
+          ))}
+        </dl>
+
+        <p class="mt-8 mb-4 text-sm leading-relaxed">Questions or bookings?</p>
+        <a
+          href={`tel:${phone.replace(/\s/g, '')}`}
+          class="inline-flex items-center gap-2 rounded-full bg-[#bb9965] px-6 py-2.5 text-sm
+                 text-white transition hover:brightness-90 motion-reduce:transition-none
+                 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-black"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" />
+          </svg>
+          Call us
+        </a>
+      </div>
+
+      <!-- Explore + order -->
+      <div class="lg:border-l lg:border-black/70 lg:px-8">
+        <nav aria-label="Footer">
+          <p class="mb-4 tracking-[0.15em]">Explore</p>
+          <ul class="space-y-1.5 text-sm">
+            {pages.map((p) => <li><a href={p.href} class={linkClass}>{p.label}</a></li>)}
+          </ul>
+        </nav>
+
+        <p class="mt-8 mb-4 tracking-[0.15em]">Order online</p>
+        <ul class="space-y-1.5 text-sm">
+          {orderApps.map((a) => (
+            <li>
+              <a href={a.href} target="_blank" rel="noopener noreferrer" class={linkClass}>
+                {a.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact + social -->
+      <div class="lg:border-l lg:border-black/70 lg:px-8">
+        <p class="mb-4 tracking-[0.15em]">Contact</p>
+        <ul class="space-y-1.5 text-sm">
+          <li><a href={`tel:${phone.replace(/\s/g, '')}`} class={linkClass}>{phone}</a></li>
+          <li>
+            <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" class={linkClass}>
+              Message us on WhatsApp
+            </a>
+          </li>
+          <li><a href={`mailto:${email}`} class={linkClass}>{email}</a></li>
+        </ul>
+
+        <p class="mt-8 mb-4 tracking-[0.15em]">Follow us</p>
+        <div class="flex items-center gap-6">
+          <a href="https://instagram.com/baitnacafe" target="_blank" rel="noopener noreferrer"
+             aria-label="Baitna Café on Instagram"
+             class="transition hover:opacity-60 motion-reduce:transition-none">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@baitnacafe" target="_blank" rel="noopener noreferrer"
+             aria-label="Baitna Café on TikTok"
+             class="transition hover:opacity-60 motion-reduce:transition-none">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a8 8 0 0 0 4.4 1.3V6.6a4.6 4.6 0 0 1-4.4-4.6Z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="lg:border-l lg:border-black/70 lg:pl-8">
+        <p class="mb-4 tracking-[0.15em]">Location</p>
+        <div class="aspect-[16/10] w-full overflow-hidden">
+          <iframe
+            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+            title="Map showing Baitna Café at Tabark Tower, Al Mamzar, Sharjah"
+            class="h-full w-full border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <a href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+           target="_blank" rel="noopener noreferrer"
+           class={`mt-3 block text-sm leading-relaxed ${linkClass}`}>
+          {address}
+        </a>
+      </div>
+    </div>
+
+    <!-- Wordmark -->
+    <div class="mx-auto mt-12 max-w-[420px] border-t border-black/70 pt-5 text-center">
+      <p class="text-2xl tracking-[0.35em] md:text-3xl">BAITNA CAFE</p>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-8 flex flex-col items-center gap-2 text-xs text-black/60 sm:flex-row sm:justify-between">
+      <p>© {year} Baitna Café. All rights reserved.</p>
+      <p>Website by Nour Saneh</p>
+    </div>
+  </div>
+</footer>
