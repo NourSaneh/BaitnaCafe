@@ -10,7 +10,6 @@ const locationUrl =
   'https://www.google.com/search?client=safari&sa=X&sca_esv=f620f31ac399600c&hl=en-ae&biw=430&bih=739&sxsrf=ADLYWIJPC38zQfgoZzbyY-Sjdd8AdjQBLw:1735238156478&kgmid=/g/11wxcr_248&q=Baitna+Cafe&shndl=30&source=sh/x/loc/act/m1/3&kgs=e871c2534124e751';
 
 // Add more drinks here — the arrows will cycle through all of them
-
 const drinks = [
   { src: cloudMatcha, alt: 'Iced cloud matcha' },
   { src: chocolateDrink, alt: 'Iced chocolate' },
@@ -49,9 +48,10 @@ const drinks = [
     ORDER NOW
   </a>
 
-  <!-- Circle with the drink slider -->
+  <!-- Circle with the drink slider (swipeable) -->
   <div
-    class="absolute bottom-0 left-1/2 z-20 flex h-64 w-64 -translate-x-1/2 translate-y-2/3 items-center justify-center rounded-full bg-[#E8D5BF] md:h-[420px] md:w-[420px]"
+    id="drink-circle"
+    class="absolute bottom-0 left-1/2 z-20 flex h-64 w-64 -translate-x-1/2 translate-y-2/3 touch-pan-y select-none items-center justify-center rounded-full bg-[#E8D5BF] md:h-[420px] md:w-[420px]"
   >
     <!-- Drinks (stacked on top of each other, only one visible) — gently floats -->
     <div class="float relative aspect-square w-[75%]">
@@ -61,12 +61,26 @@ const drinks = [
           alt={drink.alt}
           width={800}
           loading="eager"
+          draggable="false"
           data-drink
           class:list={[
             'absolute inset-0 h-full w-full object-contain drop-shadow-xl',
             i === 0 ? 'opacity-100' : 'opacity-0',
           ]}
         />
+      ))}
+    </div>
+
+    <!-- Dots (show which drink you're on) -->
+    <div class="absolute bottom-[6%] left-1/2 flex -translate-x-1/2 gap-2">
+      {drinks.map((_, i) => (
+        <span
+          data-dot
+          class:list={[
+            'h-2 rounded-full transition-all duration-300',
+            i === 0 ? 'w-5 bg-[#5C4033]' : 'w-2 bg-[#5C4033]/30',
+          ]}
+        ></span>
       ))}
     </div>
 
@@ -79,9 +93,9 @@ const drinks = [
           id="drink-next"
           type="button"
           aria-label="Next drink"
-          class="pointer-events-auto absolute right-[6%] top-[14%] text-white/80 transition hover:scale-110 hover:text-white"
+          class="pointer-events-auto absolute right-[4%] top-[12%] rounded-full bg-[#5C4033]/85 p-2 text-white shadow-lg ring-2 ring-white/40 transition hover:scale-110 hover:bg-[#5C4033] md:p-3"
         >
-          <svg class="h-16 w-16 md:h-24 md:w-24" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <svg class="h-8 w-8 md:h-10 md:w-10" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
             <path d="M6 4 A14 14 0 0 1 20 18" />
             <path d="M20 18 L17 14.5 M20 18 L23 14.5" />
           </svg>
@@ -92,9 +106,9 @@ const drinks = [
           id="drink-prev"
           type="button"
           aria-label="Previous drink"
-          class="pointer-events-auto absolute bottom-[14%] left-[6%] text-white/80 transition hover:scale-110 hover:text-white"
+          class="pointer-events-auto absolute bottom-[12%] left-[4%] rounded-full bg-[#5C4033]/85 p-2 text-white shadow-lg ring-2 ring-white/40 transition hover:scale-110 hover:bg-[#5C4033] md:p-3"
         >
-          <svg class="h-16 w-16 rotate-180 md:h-24 md:w-24" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <svg class="h-8 w-8 rotate-180 md:h-10 md:w-10" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
             <path d="M6 4 A14 14 0 0 1 20 18" />
             <path d="M20 18 L17 14.5 M20 18 L23 14.5" />
           </svg>
@@ -106,6 +120,8 @@ const drinks = [
 
 <script>
   const drinks = document.querySelectorAll<HTMLElement>('[data-drink]');
+  const dots = document.querySelectorAll<HTMLElement>('[data-dot]');
+  const circle = document.getElementById('drink-circle');
   const ring = document.getElementById('arrow-ring');
   const nextBtn = document.getElementById('drink-next');
   const prevBtn = document.getElementById('drink-prev');
@@ -126,6 +142,17 @@ const drinks = [
       { duration: 750 * speed, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' }
       // no "fill" → it snaps back to 0° at the end, which looks identical
     );
+  }
+
+  // Highlight the dot for the current drink
+  function updateDots() {
+    dots.forEach((dot, i) => {
+      const active = i === current;
+      dot.classList.toggle('w-5', active);
+      dot.classList.toggle('w-2', !active);
+      dot.classList.toggle('bg-[#5C4033]', active);
+      dot.classList.toggle('bg-[#5C4033]/30', !active);
+    });
   }
 
   function show(dir: 1 | -1) {
@@ -153,18 +180,31 @@ const drinks = [
     );
 
     enter.onfinish = () => (animating = false);
+
+    updateDots();
   }
 
-  nextBtn?.addEventListener('click', () => {
+  // One function for arrows and swipes
+  function go(dir: 1 | -1) {
     if (animating) return;
-    orbit(1);
-    show(1);
+    orbit(dir);
+    show(dir);
+  }
+
+  nextBtn?.addEventListener('click', () => go(1));
+  prevBtn?.addEventListener('click', () => go(-1));
+
+  // Swipe left/right on the circle (works with touch and mouse)
+  let startX = 0;
+
+  circle?.addEventListener('pointerdown', (e) => {
+    startX = e.clientX;
   });
 
-  prevBtn?.addEventListener('click', () => {
-    if (animating) return;
-    orbit(-1);
-    show(-1);
+  circle?.addEventListener('pointerup', (e) => {
+    const distance = e.clientX - startX;
+    if (Math.abs(distance) < 40) return; // ignore taps and tiny moves
+    go(distance < 0 ? 1 : -1); // swipe left = next, swipe right = previous
   });
 </script>
 
