@@ -5,7 +5,6 @@ import barImage from '../assets/bar.png';
 import drivuLogo from '../assets/drivu-logo.png';
 import beanzLogo from '../assets/beanz-logo.png';
 import noonLogo from '../assets/noon-logo.png';
-
 const partners = [
   {
     name: 'Drivu',
@@ -13,13 +12,17 @@ const partners = [
     label: 'Drive-thru',
     note: 'Order ahead, collect from your car',
     href: 'https://drivu.co/DriveThru/Baitna_Cafe_YvEKO/Corniche_Road,_Sharjah',
+    tile: 'bg-white',
+    logoClass: 'scale-100',
   },
   {
     name: 'Beanz',
     logo: beanzLogo,
     label: 'Delivery',
     note: 'Coming soon',
-    href: '', // add the Beanz link when ready
+    href: '',
+    tile: 'bg-white',
+    logoClass: 'scale-[1.8]',
   },
   {
     name: 'noon',
@@ -27,91 +30,96 @@ const partners = [
     label: 'Delivery',
     note: 'Delivered to your door',
     href: 'https://food.noon.com/uae-en/outlet/BTNCF5SGLA/',
+    tile: 'bg-[#FEEE00]',
+    logoClass: 'scale-[2.2]',
   },
 ];
 ---
 
 <section
   id="order-section"
-  class="mx-auto max-w-[1100px] p-4 text-black"
+  class="grid grid-cols-1 bg-[#f5ece0] text-black md:grid-cols-2"
   aria-labelledby="order-title"
 >
-  <div class="grid grid-cols-1 bg-[#f5ece0] md:grid-cols-2">
+  <!-- Text + partners
+       Left padding lines the text up with the other sections' content edge -->
+  <div
+    class="flex flex-col justify-center px-5 py-16 md:py-24 md:pl-10 md:pr-12
+           xl:py-32 xl:pr-20 xl:pl-[max(5rem,calc((100vw-1760px)/2+5rem))]"
+  >
+    <p class="mb-5 text-sm uppercase tracking-[0.2em] text-black/60 xl:text-base">Baitna Café</p>
 
-    <!-- Text + partners -->
-    <div class="flex flex-col justify-center p-8 md:p-12">
-      <p class="mb-4 text-sm tracking-[0.2em] uppercase text-black/60">Baitna Café</p>
-      <h2 id="order-title" class="mb-4 text-3xl font-normal tracking-[0.04em] md:text-4xl">
-        Drive thru or delivery
-      </h2>
-      <p class="mb-8 max-w-[36ch] leading-relaxed text-black/75">
-        Order on your favourite app. We'll have it ready.
-      </p>
+    <h2 id="order-title" class="mb-5 text-4xl font-normal leading-tight tracking-[0.04em] md:text-5xl xl:text-6xl">
+      Drive thru or delivery
+    </h2>
 
-      <ul class="list-none border-b border-black/15">
-        {partners.map((p) => {
-          const content = (
-            <>
-              <span class="flex h-14 w-24 shrink-0 items-center justify-center bg-white p-2">
-                <Image
-                  src={p.logo}
-                  alt=""
-                  width={192}
-                  class="max-h-full max-w-full object-contain"
-                />
+    <p class="mb-12 max-w-[40ch] text-lg leading-relaxed text-black/75 xl:text-xl">
+      Order on your favourite app. We'll have it ready.
+    </p>
+
+    <ul class="max-w-2xl list-none border-b border-black/15">
+      {partners.map((p) => {
+        const content = (
+          <>
+            <span class={`flex h-16 w-28 shrink-0 items-center justify-center ${p.tile} p-2.5 xl:h-20 xl:w-36 xl:p-3`}>
+              <Image
+                src={p.logo}
+                alt=""
+                width={288}
+                class:list={['max-h-full max-w-full object-contain', p.logoClass]}
+              />
+            </span>
+
+            <span class="min-w-0 flex-1">
+              <span class="block text-lg tracking-[0.08em] xl:text-xl">{p.label}</span>
+              <span class="mt-0.5 block text-sm text-black/60 xl:text-base">{p.note}</span>
+            </span>
+
+            {p.href && (
+              <span class="flex items-center gap-2 text-sm text-[#7a5c34] xl:text-base">
+                <span class="hidden sm:inline">Order on {p.name}</span>
+                <svg class="h-5 w-5 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
               </span>
+            )}
+          </>
+        );
 
-              <span class="min-w-0 flex-1">
-                <span class="block tracking-[0.08em]">{p.label}</span>
-                <span class="block text-sm text-black/60">{p.note}</span>
-              </span>
+        return (
+          <li class="border-t border-black/15">
+            {p.href ? (
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Order on ${p.name} (${p.label}, opens in a new tab)`}
+                class="group flex items-center gap-5 py-5 transition-colors hover:bg-black/[0.03] xl:gap-6 xl:py-6
+                       focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                {content}
+              </a>
+            ) : (
+              <div class="flex items-center gap-5 py-5 opacity-60 xl:gap-6 xl:py-6">
+                {content}
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
 
-              {p.href && (
-                <span class="flex items-center gap-2 text-sm text-[#7a5c34]">
-                  <span class="hidden sm:inline">Order on {p.name}</span>
-                  <svg class="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
-                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </span>
-              )}
-            </>
-          );
-
-          return (
-            <li class="border-t border-black/15">
-              {p.href ? (
-                <a
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Order on ${p.name} (${p.label}, opens in a new tab)`}
-                  class="group flex items-center gap-4 py-4 transition-colors hover:bg-black/[0.03]
-                         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                >
-                  {content}
-                </a>
-              ) : (
-                <div class="flex items-center gap-4 py-4 opacity-60">
-                  {content}
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-
-    <!-- Photo -->
-    <div class="order-first aspect-[4/3] md:order-none md:aspect-auto md:min-h-[480px]">
-      <Image
-        src={barImage}
-        alt="Baitna Café coffee bar with a vintage car parked inside"
-        widths={[600, 900, 1200]}
-        sizes="(min-width: 768px) 550px, 100vw"
-        class="block h-full w-full object-cover"
-      />
-    </div>
+  <!-- Photo: runs to the right edge of the screen -->
+  <div class="order-first aspect-[4/3] md:order-none md:aspect-auto md:min-h-[640px] xl:min-h-[760px]">
+    <Image
+      src={barImage}
+      alt="Baitna Café coffee bar with a vintage car parked inside"
+      widths={[600, 900, 1200, 1600, 2000]}
+      sizes="(min-width: 768px) 50vw, 100vw"
+      class="block h-full w-full object-cover"
+    />
   </div>
 </section>

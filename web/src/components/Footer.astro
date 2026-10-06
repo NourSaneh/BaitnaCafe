@@ -11,7 +11,11 @@ const mapEmbedSrc =
 const mapLink =
   'https://www.google.com/maps/place/Baitna+Cafe/@25.3139382,55.3613721,17z/data=!4m6!3m5!1s0x3e5f5b00290fbb4f:0x7cd19776f28f6498!8m2!3d25.3139382!4d55.3613721';
 
-const phone = '+971 056 546 3774';
+const reserveUrl =
+  'https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2?utm_source=website&utm_medium=referral&utm_content=footer';
+
+const phone = '+971 56 546 3774';      // shown on the page
+const phoneHref = 'tel:+971565463774'; // used by the link (no 0 after +971)
 const whatsapp = '971565463774';
 
 const hours = [
@@ -20,29 +24,34 @@ const hours = [
 
 const pages = [
   { label: 'Home', href: '/' },
-  { label: 'Menu', href: 'https://ae.dyneapp.io/menu/sopd/285829b0-5e4b-11f0-a785-c55a8f5bd3a2/rest/285829b0-5e4b-11f0-a785-c55a8f5bd3a2' },
+  { label: 'Menu', href: 'https://ae.dyneapp.io/menu/sopd/285829b0-5e4b-11f0-a785-c55a8f5bd3a2/rest/285829b0-5e4b-11f0-a785-c55a8f5bd3a2', external: true },
   { label: 'Events', href: '/#events' },
   { label: 'Delivery', href: '/#order-section' },
 ];
 
 const orderApps = [
-  { label: 'Drivu (Drive thru)', href: 'https://drivu.co/DriveThru/Baitna_Cafe_YvEKO/Corniche_Road,_Sharjah' },
-  { label: 'Beanz (Delivery)', href: '#' },
+  { label: 'Drivu (Drive-thru)', href: 'https://drivu.co/DriveThru/Baitna_Cafe_YvEKO/Corniche_Road,_Sharjah' },
+  { label: 'Beanz (Delivery)', href: '' }, // add the link when ready
   { label: 'noon (Delivery)', href: 'https://food.noon.com/uae-en/outlet/BTNCF5SGLA/' },
 ];
 
-const linkClass = 'underline-offset-4 hover:underline';
+const linkClass = 'inline-flex min-h-10 items-center underline-offset-4 hover:underline';
+const headingClass = 'mb-5 text-lg tracking-[0.15em] xl:text-2xl';
+const buttonClass =
+  'inline-flex min-h-12 items-center gap-2 bg-[#7a5c34] px-7 text-sm uppercase tracking-[0.2em] text-cream ' +
+  'transition-colors hover:bg-[#5c4426] md:min-h-14 md:px-9 md:text-base xl:min-h-16 xl:px-10 ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]';
 ---
 
-<footer class="mt-16 bg-[#ecd5b3] text-black">
-  <div class="mx-auto max-w-[1200px] px-6 pt-12 pb-6">
+<footer class="bg-[#ecd5b3] text-black">
+  <div class="mx-auto w-full max-w-[1920px] px-5 pt-16 pb-8 md:px-10 md:pt-20 xl:px-12 xl:pt-28">
 
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.1fr_1.3fr] lg:gap-0">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[1.1fr_1fr_1fr_1.4fr] lg:gap-0">
 
       <!-- Hours + call -->
-      <div class="lg:pr-8">
-        <p class="mb-4 tracking-[0.15em]">Opening hours</p>
-        <dl class="grid w-fit grid-cols-[auto_auto] gap-x-8 gap-y-1.5 text-sm">
+      <div class="lg:pr-10 xl:pr-14">
+        <p class={headingClass}>Opening hours</p>
+        <dl class="grid w-fit grid-cols-[auto_auto] gap-x-8 gap-y-2 text-base xl:text-xl">
           {hours.map((h) => (
             <>
               <dt>{h.days}</dt>
@@ -51,57 +60,64 @@ const linkClass = 'underline-offset-4 hover:underline';
           ))}
         </dl>
 
-        <p class="mt-8 mb-4 text-sm leading-relaxed">Questions or bookings?</p>
+        <p class="mt-10 mb-5 text-base leading-relaxed xl:text-xl">Questions or bookings?</p>
         <div class="flex flex-wrap gap-3">
-          <a
-            href={`tel:${phone.replace(/\s/g, '')}`}
-            class="inline-flex items-center gap-2 rounded-full bg-[#bb9965] px-6 py-2.5 text-sm text-white
-                   transition hover:brightness-90 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-black"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <a href={phoneHref} class={buttonClass}>
+            <svg class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" />
             </svg>
             Call us
           </a>
 
-          <a
-            href="https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2"
-            target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center rounded-full bg-[#bb9965] px-6 py-2.5 text-sm text-white
-                   transition hover:brightness-90 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-black"
-          >
+          <a href={reserveUrl} target="_blank" rel="noopener noreferrer" class={buttonClass}>
             Book now
           </a>
         </div>
       </div>
 
       <!-- Explore + order -->
-      <div class="lg:border-l lg:border-black/70 lg:px-8">
+      <div class="lg:border-l lg:border-black/40 lg:px-10 xl:px-14">
         <nav aria-label="Footer">
-          <p class="mb-4 tracking-[0.15em]">Explore</p>
-          <ul class="space-y-1.5 text-sm">
-            {pages.map((p) => <li><a href={p.href} class={linkClass}>{p.label}</a></li>)}
+          <p class={headingClass}>Explore</p>
+          <ul class="text-base xl:text-xl">
+            {pages.map((p) => (
+              <li>
+                <a
+                  href={p.href}
+                  class={linkClass}
+                  {...(p.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {p.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </nav>
 
-        <p class="mt-8 mb-4 tracking-[0.15em]">Order online</p>
-        <ul class="space-y-1.5 text-sm">
+        <p class={`mt-10 ${headingClass}`}>Order online</p>
+        <ul class="text-base xl:text-xl">
           {orderApps.map((a) => (
             <li>
-              <a href={a.href} target="_blank" rel="noopener noreferrer" class={linkClass}>
-                {a.label}
-              </a>
+              {a.href ? (
+                <a href={a.href} target="_blank" rel="noopener noreferrer" class={linkClass}>
+                  {a.label}
+                </a>
+              ) : (
+                <span class="inline-flex min-h-10 items-center text-black/50">
+                  {a.label} · soon
+                </span>
+              )}
             </li>
           ))}
         </ul>
       </div>
 
       <!-- Contact + social -->
-      <div class="lg:border-l lg:border-black/70 lg:px-8">
-        <p class="mb-4 tracking-[0.15em]">Contact</p>
-        <ul class="space-y-1.5 text-sm">
-          <li><a href={`tel:${phone.replace(/\s/g, '')}`} class={linkClass}>{phone}</a></li>
+      <div class="lg:border-l lg:border-black/40 lg:px-10 xl:px-14">
+        <p class={headingClass}>Contact</p>
+        <ul class="text-base xl:text-xl">
+          <li><a href={phoneHref} class={linkClass}>{phone}</a></li>
           <li>
             <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" class={linkClass}>
               Message us on WhatsApp
@@ -109,12 +125,12 @@ const linkClass = 'underline-offset-4 hover:underline';
           </li>
         </ul>
 
-        <p class="mt-8 mb-4 tracking-[0.15em]">Follow us</p>
-        <div class="flex items-center gap-6">
+        <p class={`mt-10 ${headingClass}`}>Follow us</p>
+        <div class="-ml-2 flex items-center gap-3">
           <a href="https://instagram.com/baitnacafe" target="_blank" rel="noopener noreferrer"
              aria-label="Baitna Café on Instagram"
-             class="transition hover:opacity-60 motion-reduce:transition-none">
-            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+             class="inline-flex h-12 w-12 items-center justify-center transition hover:opacity-60 motion-reduce:transition-none xl:h-14 xl:w-14">
+            <svg class="h-8 w-8 xl:h-9 xl:w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5" />
               <circle cx="12" cy="12" r="4" />
               <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
@@ -122,8 +138,8 @@ const linkClass = 'underline-offset-4 hover:underline';
           </a>
           <a href="https://www.tiktok.com/@baitnacafe" target="_blank" rel="noopener noreferrer"
              aria-label="Baitna Café on TikTok"
-             class="transition hover:opacity-60 motion-reduce:transition-none">
-            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+             class="inline-flex h-12 w-12 items-center justify-center transition hover:opacity-60 motion-reduce:transition-none xl:h-14 xl:w-14">
+            <svg class="h-8 w-8 xl:h-9 xl:w-9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9a6.3 6.3 0 1 0 5.3 6.2V8.6a8 8 0 0 0 4.4 1.3V6.6a4.6 4.6 0 0 1-4.4-4.6Z" />
             </svg>
           </a>
@@ -131,8 +147,8 @@ const linkClass = 'underline-offset-4 hover:underline';
       </div>
 
       <!-- Location -->
-      <div class="lg:border-l lg:border-black/70 lg:pl-8">
-        <p class="mb-4 tracking-[0.15em]">Location</p>
+      <div class="lg:border-l lg:border-black/40 lg:pl-10 xl:pl-14">
+        <p class={headingClass}>Location</p>
         <div class="aspect-[16/10] w-full overflow-hidden">
           <iframe
             src={mapEmbedSrc}
@@ -145,19 +161,19 @@ const linkClass = 'underline-offset-4 hover:underline';
         </div>
         <a href={mapLink}
            target="_blank" rel="noopener noreferrer"
-           class={`mt-3 block text-sm leading-relaxed ${linkClass}`}>
+           class={`mt-3 text-base leading-relaxed xl:text-xl ${linkClass}`}>
           {address}
         </a>
       </div>
     </div>
 
     <!-- Wordmark -->
-    <div class="mx-auto mt-12 max-w-[420px] border-t border-black/70 pt-5 text-center">
-      <p class="text-2xl tracking-[0.35em] md:text-3xl">BAITNA CAFE</p>
+    <div class="mx-auto mt-16 max-w-[720px] border-t border-black/40 pt-8 text-center xl:mt-24">
+      <p class="text-3xl tracking-[0.35em] md:text-5xl xl:text-6xl">BAITNA CAFE</p>
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-8 flex flex-col items-center gap-2 text-xs text-black/60 sm:flex-row sm:justify-between">
+    <div class="mt-12 flex flex-col items-center gap-2 text-sm text-black/70 sm:flex-row sm:justify-between xl:text-base">
       <p>© {year} Baitna Café. All rights reserved.</p>
       <p>Website by Nour Saneh</p>
     </div>

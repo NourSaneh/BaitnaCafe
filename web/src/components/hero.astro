@@ -6,8 +6,8 @@ import chocolateDrink from '../assets/chocolatedrink.png';
 import sandwich from '../assets/sandwich.png';
 import Nav from './nav.astro';
 
-const locationUrl =
-  'https://www.google.com/search?client=safari&sa=X&sca_esv=f620f31ac399600c&hl=en-ae&biw=430&bih=739&sxsrf=ADLYWIJPC38zQfgoZzbyY-Sjdd8AdjQBLw:1735238156478&kgmid=/g/11wxcr_248&q=Baitna+Cafe&shndl=30&source=sh/x/loc/act/m1/3&kgs=e871c2534124e751';
+const reserveUrl =
+  'https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2';
 
 // Add more drinks here — the arrows will cycle through all of them
 const drinks = [
@@ -17,7 +17,7 @@ const drinks = [
 ];
 ---
 
-<header class="relative h-[90vh] min-h-[560px]">
+<header class="relative h-[90svh] min-h-[600px]">
   <!-- Background photo -->
   <Image
     src={herobg}
@@ -25,34 +25,62 @@ const drinks = [
     width={1920}
     quality={90}
     loading="eager"
+    fetchpriority="high"
     class="absolute inset-0 h-full w-full object-cover"
   />
-  <div class="absolute inset-0 bg-black/15"></div>
+
+  <!-- Light overall tint + darker fade at the bottom so the text stays readable -->
+  <div class="absolute inset-0 bg-black/10"></div>
+  <div class="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
 
   <Nav />
 
-  <!-- Buttons -->
-  <a
-    href={locationUrl}
-    target="_blank"
-    rel="noopener"
-    class="absolute bottom-28 left-4 z-10 rounded-sm bg-black/40 px-6 py-3 text-sm tracking-[0.25em] text-cream backdrop-blur-sm transition-colors hover:bg-black/60 md:bottom-10 md:left-10 md:px-10 md:py-4"
-  >
-    VISIT US
-  </a>
+  <!-- Hero text -->
+<!-- Hero text -->
+<div class="absolute inset-x-0 bottom-28 z-10 md:bottom-[180px] xl:bottom-14">
+  <div class="mx-auto w-full max-w-[1920px] px-5 md:px-10 xl:px-12">
+    <div class="max-w-[760px]">
+      <h1 class="text-4xl leading-[1.1] tracking-[0.04em] text-cream md:text-6xl xl:text-7xl 2xl:text-[5.25rem]">
+        Your home above Sharjah
+      </h1>
 
-  <a
-    href="#delivery"
-    class="absolute bottom-28 right-4 z-10 rounded-sm bg-black/40 px-6 py-3 text-sm tracking-[0.25em] text-cream backdrop-blur-sm transition-colors hover:bg-black/60 md:bottom-10 md:right-10 md:px-10 md:py-4"
-  >
-    ORDER NOW
-  </a>
+      <p class="mt-4 text-base tracking-[0.08em] text-cream/90 md:text-lg xl:mt-5 xl:text-xl">
+        Rooftop café · 30th floor · Open daily 8 am – 2 am
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 xl:mt-10">
+        <a
+          href={reserveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center bg-cream px-8 text-sm uppercase tracking-[0.2em] text-[#3b2a1f]
+                 transition hover:bg-white
+                 md:min-h-14 md:px-10 md:text-base xl:min-h-16 xl:px-12
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+        >
+          Reserve a table
+        </a>
+
+        <a
+          href="#order-section"
+          class="inline-flex min-h-12 items-center text-sm uppercase tracking-[0.2em] text-cream
+                 underline decoration-cream/50 underline-offset-8 transition hover:decoration-cream
+                 md:min-h-14 md:text-base xl:min-h-16
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+        >
+          Order delivery
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Circle with the drink slider (swipeable) -->
-  <div
-    id="drink-circle"
-    class="absolute bottom-0 left-1/2 z-20 flex h-64 w-64 -translate-x-1/2 translate-y-2/3 touch-pan-y select-none items-center justify-center rounded-full bg-[#E8D5BF] md:h-[420px] md:w-[420px]"
-  >
+<div
+  id="drink-circle"
+  class="absolute bottom-0 left-1/2 z-20 flex h-64 w-64 -translate-x-1/2 translate-y-2/3 touch-pan-y select-none items-center justify-center rounded-full bg-[#E8D5BF]
+         ring-[10px] ring-[#F5EEE6] md:h-[420px] md:w-[420px] md:ring-[16px]"
+>
     <!-- Drinks (stacked on top of each other, only one visible) — gently floats -->
     <div class="float relative aspect-square w-[75%]">
       {drinks.map((drink, i) => (

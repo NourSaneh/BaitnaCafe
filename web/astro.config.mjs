@@ -16,4 +16,7 @@ export default defineConfig({
 
 integrations: [react(), keystatic()],  
 adapter: vercel(),
+ image: {
+       domains: ['drivu.s3.eu-west-1.amazonaws.com'],
+     },
 });

@@ -2,33 +2,36 @@
 import { Image } from 'astro:assets';
 import nightView from '../assets/NightView.jpg';
 import cafeView from '../assets/cafeview.mp4';
+
+const reserveUrl =
+  'https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2?utm_source=website&utm_medium=referral&utm_content=story_section';
 ---
 
-<!-- Full-width background -->
-<section class="bg-[#F5EEE6]">
-  <div class="mx-auto max-w-6xl px-4 pt-44 pb-20 md:px-10 md:pt-8">
-    <div class="grid items-start gap-12 md:grid-cols-[1.4fr_1fr] md:gap-16">
+<section class="bg-[#F5EEE6]" aria-labelledby="story-title">
+<div class="mx-auto max-w-[1760px] px-5 pt-48 pb-20 md:px-10 md:pt-16 md:pb-28 xl:px-20">    <div class="grid items-start gap-12 md:grid-cols-[1.3fr_1fr] md:gap-12 lg:gap-20">
 
       <!-- LEFT: Rooftop night photo with the label in the corner -->
       <div class="relative">
-        <Image
-          src={nightView}
-          alt="Baitna Cafe rooftop at night overlooking the Sharjah skyline"
-          width={1200}
-          class="aspect-[1/1] w-full object-cover md:aspect-[5/5.5]"
-        />
+<Image
+  src={nightView}
+  alt="Baitna Cafe rooftop at night overlooking the Sharjah skyline"
+  widths={[640, 960, 1400, 1800]}
+  sizes="(min-width: 768px) 56vw, 100vw"
+  class="aspect-square w-full object-cover md:aspect-[4/5] md:max-h-[88svh]"
+/>
 
         <!-- Label: the frame matches the section background so it looks "cut out" -->
-        <div class="absolute bottom-0 right-0 bg-[#F5EEE6] pl-4 pt-4">
-          <p class="bg-neutral-800 px-6 py-4 text-center text-xs uppercase leading-relaxed tracking-[0.2em] text-cream md:text-sm">
-            Roof Top Cafe<br />30th Floor
+        <div class="absolute bottom-0 right-0 bg-[#F5EEE6] pl-4 pt-4 md:pl-5 md:pt-5">
+        <p class="bg-neutral-800 px-6 py-4 text-center text-xs uppercase leading-relaxed tracking-[0.2em] text-cream
+          md:px-8 md:py-5 md:text-sm xl:px-10 xl:py-6 xl:text-base">
+            Rooftop Café<br />30th Floor
           </p>
         </div>
       </div>
 
-      <!-- RIGHT: Café video + tagline -->
-      <div class="flex flex-col items-center md:mt-8">
-        <div class="w-full overflow-hidden rounded-[2rem]">
+      <!-- RIGHT: Café video + text -->
+      <div class="flex flex-col md:mt-16 lg:mt-24">
+        <div class="w-full overflow-hidden">
           <video
             src={cafeView}
             autoplay
@@ -37,47 +40,55 @@ import cafeView from '../assets/cafeview.mp4';
             playsinline
             preload="metadata"
             aria-label="Inside Baitna Cafe"
-            class="aspect-[4/3.8] w-full object-cover"
+            class="aspect-[4/3] w-full object-cover md:aspect-[5/4]"
           ></video>
         </div>
 
- <!-- Tagline + intro -->
-<div class="mt-6 flex max-w-lg flex-col items-center text-center md:items-start md:text-left">
-<h2 class="font-display text-3xl leading-tight text-neutral-900 md:whitespace-nowrap md:text-4xl">
-  Your Home{' '}
-  <span class="relative inline-block">
-    Above Sharjah
-    <!-- Doodle underline -->
-    <svg class="absolute -bottom-3 left-0 h-3 w-full text-[#C9A27E]" viewBox="0 0 200 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" preserveAspectRatio="none">
-      <path d="M3 8 C 50 2, 120 2, 197 7" />
-    </svg>
-  </span>
-</h2>
+        <div class="mt-10 flex max-w-xl flex-col items-center text-center md:items-start md:text-left">
+          <h2
+            id="story-title"
+            class="font-display text-4xl leading-tight text-neutral-900 md:text-5xl xl:text-6xl"
+          >
+            Coffee with{' '}
+            <span class="relative inline-block">
+              a view
+              <!-- Doodle underline -->
+              <svg class="absolute -bottom-3 left-0 h-3 w-full text-[#C9A27E]" viewBox="0 0 200 12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M3 8 C 50 2, 120 2, 197 7" />
+              </svg>
+            </span>
+          </h2>
 
-  <p class="mt-6 leading-relaxed text-neutral-700">
-    A rooftop café on the 30th floor with the best view of Sharjah —
-    specialty coffee, fresh bites, and a spot that feels like home.
-  </p>
+          <p class="mt-8 text-base leading-relaxed text-neutral-700 md:text-lg">
+            A rooftop café on the 30th floor with the best view of Sharjah —
+            specialty coffee, fresh bites, and a spot that feels like home.
+          </p>
 
-  <p class="mt-4 text-sm uppercase tracking-[0.2em] text-neutral-500">
-    Open daily · 8 AM – 2 AM
-  </p>
+          <p class="mt-5 text-sm uppercase tracking-[0.2em] text-neutral-600">
+            Open daily · 8 AM – 2 AM
+          </p>
 
-  <div class="mt-6 flex items-center gap-3">
-    <a
-      href="https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2?utm_source=ig&utm_medium=social&utm_content=link_in_bio"
-      class="bg-neutral-800 px-6 py-3 text-sm uppercase tracking-[0.2em] text-cream transition-colors hover:bg-neutral-700"
-    >
-      Reserve a table
-    </a>
+ <div class="mt-10 flex items-center gap-5">
+  <a
+    href={reserveUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex min-h-12 items-center bg-[#7a5c34] px-8 text-sm uppercase tracking-[0.2em] text-cream
+           transition-colors hover:bg-[#5c4426]
+           md:min-h-14 md:px-10 md:text-base
+           xl:min-h-16 xl:px-12
+           focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]"
+  >
+    Reserve a table
+  </a>
 
-    <!-- Doodle arrow -->
-    <svg class="h-8 w-14 text-[#C9A27E]" viewBox="0 0 60 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M58 15 C 45 2, 25 28, 6 14" />
-      <path d="M6 14 L 14 10 M6 14 L 12 21" />
-    </svg>
-  </div>
+  <!-- Doodle arrow -->
+  <svg class="h-8 w-14 text-[#C9A27E] md:h-10 md:w-[4.5rem] xl:h-12 xl:w-20" viewBox="0 0 60 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M58 15 C 45 2, 25 28, 6 14" />
+    <path d="M6 14 L 14 10 M6 14 L 12 21" />
+  </svg>
 </div>
+        </div>
       </div>
 
     </div>
