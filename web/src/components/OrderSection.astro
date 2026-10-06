@@ -7,62 +7,111 @@ import beanzLogo from '../assets/beanz-logo.png';
 import noonLogo from '../assets/noon-logo.png';
 
 const partners = [
-  { name: 'Drivu', logo: drivuLogo, label: 'Drivethru', href: 'https://drivu.com' },
-  { name: 'Beanz', logo: beanzLogo, label: 'Delivery', href: '#' },
-  { name: 'noon',  logo: noonLogo,  label: 'Delivery', href: '#' },
+  {
+    name: 'Drivu',
+    logo: drivuLogo,
+    label: 'Drive-thru',
+    note: 'Order ahead, collect from your car',
+    href: 'https://drivu.co/DriveThru/Baitna_Cafe_YvEKO/Corniche_Road,_Sharjah',
+  },
+  {
+    name: 'Beanz',
+    logo: beanzLogo,
+    label: 'Delivery',
+    note: 'Coming soon',
+    href: '', // add the Beanz link when ready
+  },
+  {
+    name: 'noon',
+    logo: noonLogo,
+    label: 'Delivery',
+    note: 'Delivered to your door',
+    href: 'https://food.noon.com/uae-en/outlet/BTNCF5SGLA/',
+  },
 ];
 ---
 
 <section
-  class="mx-auto grid max-w-[1100px] gap-1.5 p-4 text-black"
+  id="order-section"
+  class="mx-auto max-w-[1100px] p-4 text-black"
   aria-labelledby="order-title"
 >
-  <!-- Top block -->
-  <div class="grid min-h-[300px] grid-cols-1 bg-[#d9d9d9] md:grid-cols-2">
-    <div class="flex flex-col justify-center p-8 tracking-[0.08em]">
-      <p class="mb-7 text-[0.95rem]">Baitna Café</p>
-      <h2 id="order-title" class="mb-6 text-2xl font-normal md:text-[1.75rem]">
+  <div class="grid grid-cols-1 bg-[#f5ece0] md:grid-cols-2">
+
+    <!-- Text + partners -->
+    <div class="flex flex-col justify-center p-8 md:p-12">
+      <p class="mb-4 text-sm tracking-[0.2em] uppercase text-black/60">Baitna Café</p>
+      <h2 id="order-title" class="mb-4 text-3xl font-normal tracking-[0.04em] md:text-4xl">
         Drive thru or delivery
       </h2>
-      <p class="max-w-[36ch] text-[0.95rem] leading-snug">
+      <p class="mb-8 max-w-[36ch] leading-relaxed text-black/75">
         Order on your favourite app. We'll have it ready.
       </p>
+
+      <ul class="list-none border-b border-black/15">
+        {partners.map((p) => {
+          const content = (
+            <>
+              <span class="flex h-14 w-24 shrink-0 items-center justify-center bg-white p-2">
+                <Image
+                  src={p.logo}
+                  alt=""
+                  width={192}
+                  class="max-h-full max-w-full object-contain"
+                />
+              </span>
+
+              <span class="min-w-0 flex-1">
+                <span class="block tracking-[0.08em]">{p.label}</span>
+                <span class="block text-sm text-black/60">{p.note}</span>
+              </span>
+
+              {p.href && (
+                <span class="flex items-center gap-2 text-sm text-[#7a5c34]">
+                  <span class="hidden sm:inline">Order on {p.name}</span>
+                  <svg class="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transition-none"
+                       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              )}
+            </>
+          );
+
+          return (
+            <li class="border-t border-black/15">
+              {p.href ? (
+                <a
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Order on ${p.name} (${p.label}, opens in a new tab)`}
+                  class="group flex items-center gap-4 py-4 transition-colors hover:bg-black/[0.03]
+                         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div class="flex items-center gap-4 py-4 opacity-60">
+                  {content}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
 
-    <div class="order-first aspect-[4/3] md:order-none md:aspect-auto">
+    <!-- Photo -->
+    <div class="order-first aspect-[4/3] md:order-none md:aspect-auto md:min-h-[480px]">
       <Image
         src={barImage}
         alt="Baitna Café coffee bar with a vintage car parked inside"
+        widths={[600, 900, 1200]}
+        sizes="(min-width: 768px) 550px, 100vw"
         class="block h-full w-full object-cover"
       />
     </div>
   </div>
-
-  <!-- Partners row -->
-  <ul
-    class="grid list-none grid-cols-1 divide-y divide-[#333] bg-[#d9d9d9]
-           md:grid-cols-3 md:divide-x md:divide-y-0 md:pt-3 md:pb-6"
-  >
-    {partners.map((p) => (
-      <li class="flex flex-col items-center px-4 py-6 md:px-5 md:py-0">
-        <div class="flex h-20 items-center justify-center">
-          <Image src={p.logo} alt={p.name} class="max-h-full max-w-full object-contain" />
-        </div>
-
-        <p class="mt-5 mb-6 tracking-[0.1em]">{p.label}</p>
-
-        <a
-          href={p.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex min-w-[100px] items-center justify-center rounded-full
-                 bg-[#bb9965] px-6 py-2.5 text-sm text-white no-underline
-                 transition hover:brightness-90 motion-reduce:transition-none
-                 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-black"
-        >
-          Order on {p.name}
-        </a>
-      </li>
-    ))}
-  </ul>
 </section>
