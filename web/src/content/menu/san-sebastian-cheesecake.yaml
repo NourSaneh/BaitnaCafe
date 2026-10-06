@@ -1,0 +1,6 @@
+name: "San Sebastian Cheesecake"
+category: desserts
+note: "Caramelised top with a creamy centre"
+image: ../../assets/menu/san-sebastian-cheesecake/image.jpg
+order: 2
+visible: true

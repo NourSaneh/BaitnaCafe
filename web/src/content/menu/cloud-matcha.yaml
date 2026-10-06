@@ -1,0 +1,6 @@
+name: "Cloud Matcha"
+category: drinks
+note: "Coconut water topped with smooth matcha foam"
+image: ../../assets/menu/cloud-matcha/image.jpg
+order: 1
+visible: true

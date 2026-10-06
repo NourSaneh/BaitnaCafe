@@ -1,0 +1,6 @@
+name: "Lotus Milk Cake"
+category: desserts
+note: "Creamy milk cake with rich Lotus Biscoff"
+image: ../../assets/menu/lotus-milk-cake/image.jpg
+order: 3
+visible: true

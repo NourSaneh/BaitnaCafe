@@ -1,0 +1,6 @@
+name: "Chicken BBQ Sandwich"
+category: sandwiches
+note: "Grilled chicken with smoky BBQ sauce"
+image: ../../assets/menu/chicken-bbq-sandwich/image.jpg
+order: 2
+visible: true

@@ -1,0 +1,6 @@
+name: "Cheese Croissant"
+category: desserts
+note: "Warm, flaky croissant topped with melted cheese"
+image: ../../assets/menu/cheese-croissant/image.jpg
+order: 1
+visible: true

@@ -1,0 +1,6 @@
+name: "Pesto Chicken Focaccia"
+category: sandwiches
+note: "Chicken, mozzarella & basil pesto on focaccia"
+image: ../../assets/menu/pesto-chicken-focaccia/image.jpg
+order: 1
+visible: true

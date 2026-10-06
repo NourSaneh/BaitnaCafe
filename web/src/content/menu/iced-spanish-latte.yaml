@@ -1,0 +1,6 @@
+name: "Iced Spanish Latte"
+category: drinks
+note: "Sweet, creamy iced latte with a Spanish twist"
+image: ../../assets/menu/iced-spanish-latte/image.jpg
+order: 3
+visible: true

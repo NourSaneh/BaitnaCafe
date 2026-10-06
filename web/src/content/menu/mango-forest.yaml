@@ -1,0 +1,6 @@
+name: "Mango Forest"
+category: drinks
+note: "Our summer mango signature"
+image: ../../assets/menu/mango-forest/image.jpg
+order: 2
+visible: true
