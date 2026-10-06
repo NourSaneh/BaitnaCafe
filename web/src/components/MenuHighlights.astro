@@ -1,173 +1,123 @@
 ---
 // src/components/MenuHighlights.astro
-// Signature picks: 3 categories × 3 items, photos served from Baitna's Drivu menu.
-// Requires the Drivu image domain in astro.config.mjs (see note at the bottom).
+// Signature picks — items come from the "menu" collection, edited in Keystatic.
 import { Image } from 'astro:assets';
-
-const IMG = 'https://drivu.s3.eu-west-1.amazonaws.com/uploads/menu_item/image/';
+import { getCollection } from 'astro:content';
 
 const fullMenuUrl =
   'https://ae.dyneapp.io/menu/sopd/285829b0-5e4b-11f0-a785-c55a8f5bd3a2/rest/285829b0-5e4b-11f0-a785-c55a8f5bd3a2';
 const drivuUrl = 'https://drivu.co/DriveThru/Baitna_Cafe_YvEKO/Corniche_Road,_Sharjah';
 
-const categories = [
-  {
-    title: 'Drinks',
-    subtitle: 'Matcha, coffee & summer signatures',
-    items: [
-      {
-        name: 'Cloud Matcha',
-        note: 'Coconut water topped with smooth matcha foam',
-        img: `${IMG}228809/WES08359_0004_WES08466.jpg`,
-      },
-      {
-        name: 'Mango Forest',
-        note: 'Our summer mango signature', // confirm wording with the owner
-        img: `${IMG}231169/WES08359_0016_WES08446.jpg`,
-      },
-      {
-        name: 'Iced Spanish Latte',
-        note: 'Sweet, creamy iced latte with a Spanish twist',
-        img: `${IMG}228805/Iced_Spanish_Latte.jpg`,
-      },
-    ],
-  },
-  {
-    title: 'Desserts & Pastries',
-    subtitle: 'Baked fresh, best with coffee',
-    items: [
-      {
-        name: 'Cheese Croissant',
-        note: 'Warm, flaky croissant topped with melted cheese',
-        img: `${IMG}228066/19.jpeg`,
-      },
-      {
-        name: 'San Sebastian Cheesecake',
-        note: 'Caramelised top with a creamy centre',
-        img: `${IMG}228044/42.jpeg`,
-      },
-      {
-        name: 'Lotus Milk Cake',
-        note: 'Creamy milk cake with rich Lotus Biscoff',
-        img: `${IMG}228063/44.jpeg`,
-      },
-    ],
-  },
-  {
-    title: 'Sandwiches',
-    subtitle: 'Made to order, all day',
-    items: [
-      {
-        name: 'Pesto Chicken Focaccia',
-        note: 'Chicken, mozzarella & basil pesto on focaccia',
-        img: `${IMG}228075/20.jpeg`,
-      },
-      {
-        name: 'Chicken BBQ Sandwich',
-        note: 'Grilled chicken with smoky BBQ sauce',
-        img: `${IMG}228073/69.jpeg`,
-      },
-      {
-        name: 'Smoked Turkey & Dijon',
-        note: 'Smoked turkey with Dijon mustard',
-        img: `${IMG}228070/65.jpeg`,
-      },
-    ],
-  },
+// Max items shown per category, so the three panels stay balanced
+const MAX_PER_CATEGORY = 4;
+
+// Panel titles live here; the items come from Keystatic
+const categoryInfo = [
+  { key: 'drinks', title: 'Drinks', subtitle: 'Matcha, coffee & summer signatures' },
+  { key: 'desserts', title: 'Desserts & Pastries', subtitle: 'Baked fresh, best with coffee' },
+  { key: 'sandwiches', title: 'Sandwiches', subtitle: 'Made to order, all day' },
 ];
+
+const items = (await getCollection('menu'))
+  .filter(({ data }) => data.visible !== false)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const categories = categoryInfo
+  .map((cat) => ({
+    ...cat,
+    items: items.filter(({ data }) => data.category === cat.key).slice(0, MAX_PER_CATEGORY),
+  }))
+  .filter((cat) => cat.items.length > 0); // hide a panel if it has no items
 ---
 
-<section id="menu" class="bg-[#F5EEE6] py-20 md:py-28" aria-labelledby="menu-title">
-  <div class="mx-auto w-full max-w-[1920px] px-5 md:px-10 xl:px-12">
+{categories.length > 0 && (
+  <section id="menu" class="bg-[#F5EEE6] py-20 md:py-28" aria-labelledby="menu-title">
+    <div class="mx-auto w-full max-w-[1920px] px-5 md:px-10 xl:px-12">
 
-    <!-- Heading -->
-    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-      <div>
-        <p class="text-xs uppercase tracking-[0.3em] text-neutral-700 md:text-sm">On the menu</p>
-        <h2 id="menu-title" class="font-display mt-3 text-4xl leading-tight text-neutral-900 md:text-5xl xl:text-6xl">
-          Signature picks
-        </h2>
+      <!-- Heading -->
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-neutral-700 md:text-sm">On the menu</p>
+          <h2 id="menu-title" class="font-display mt-3 text-4xl leading-tight text-neutral-900 md:text-5xl xl:text-6xl">
+            Signature picks
+          </h2>
+        </div>
+
+        <a
+          href={fullMenuUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center gap-2 self-start text-sm uppercase tracking-[0.2em] text-[#7a5c34]
+                 underline decoration-[#7a5c34]/40 underline-offset-8 transition hover:decoration-[#7a5c34]
+                 md:min-h-14 md:self-auto md:text-base
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]"
+        >
+          See the full menu
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
       </div>
 
-      <a
-        href={fullMenuUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex min-h-12 items-center gap-2 self-start text-sm uppercase tracking-[0.2em] text-[#7a5c34]
-               underline decoration-[#7a5c34]/40 underline-offset-8 transition hover:decoration-[#7a5c34]
-               md:min-h-14 md:self-auto md:text-base
-               focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]"
-      >
-        See the full menu
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
-      </a>
+      <!-- Category panels -->
+      <div class:list={[
+        'mt-12 grid gap-6 md:mt-16 xl:gap-8',
+        categories.length === 3 && 'lg:grid-cols-3',
+        categories.length === 2 && 'lg:grid-cols-2',
+      ]}>
+        {categories.map((cat) => (
+          <div class="flex flex-col bg-[#EDE3D6] p-6 md:p-8 xl:p-10">
+            <h3 class="font-display text-3xl text-neutral-900 xl:text-4xl">{cat.title}</h3>
+            <p class="mt-2 text-sm tracking-[0.08em] text-neutral-600 xl:text-base">{cat.subtitle}</p>
+
+            <ul class="mt-8 flex list-none flex-col gap-4 xl:gap-5">
+              {cat.items.map(({ data }) => (
+                <li class="flex items-center gap-5 bg-white p-3 shadow-[0_6px_20px_-12px_rgba(60,40,20,0.35)] xl:gap-6 xl:p-4">
+                  <Image
+                    src={data.image}
+                    alt={data.name}
+                    widths={[200, 320]}
+                    sizes="128px"
+                    quality={80}
+                    class="aspect-square h-24 w-24 shrink-0 object-cover md:h-28 md:w-28 xl:h-32 xl:w-32"
+                  />
+
+                  <div class="min-w-0 flex-1">
+                    <p class="text-lg leading-snug tracking-[0.02em] text-neutral-900 xl:text-xl">{data.name}</p>
+                    {data.note && (
+                      <p class="mt-1.5 text-sm leading-relaxed text-neutral-600 xl:text-base">{data.note}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <!-- Order prompt -->
+      <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 md:mt-16">
+        <a
+          href={drivuUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center bg-[#7a5c34] px-8 text-sm uppercase tracking-[0.2em] text-cream
+                 transition-colors hover:bg-[#5c4426]
+                 md:min-h-14 md:px-10 md:text-base xl:min-h-16 xl:px-12
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]"
+        >
+          Order on Drivu
+        </a>
+        <a
+          href="#order-section"
+          class="inline-flex min-h-12 items-center text-sm uppercase tracking-[0.2em] text-[#7a5c34]
+                 underline decoration-[#7a5c34]/40 underline-offset-8 transition hover:decoration-[#7a5c34]
+                 md:min-h-14 md:text-base"
+        >
+          Delivery options
+        </a>
+      </div>
     </div>
-
-    <!-- Three category panels -->
-    <div class="mt-12 grid gap-6 md:mt-16 lg:grid-cols-3 xl:gap-8">
-      {categories.map((cat) => (
-        <div class="flex flex-col bg-[#EDE3D6] p-6 md:p-8 xl:p-10">
-          <h3 class="font-display text-3xl text-neutral-900 xl:text-4xl">{cat.title}</h3>
-          <p class="mt-2 text-sm tracking-[0.08em] text-neutral-600 xl:text-base">{cat.subtitle}</p>
-
-          <ul class="mt-8 flex list-none flex-col gap-4 xl:gap-5">
-            {cat.items.map((item) => (
-              <li class="flex items-center gap-5 bg-white p-3 shadow-[0_6px_20px_-12px_rgba(60,40,20,0.35)] xl:gap-6 xl:p-4">
-                <Image
-                  src={item.img}
-                  alt={item.name}
-                  inferSize
-                  width={320}
-                  quality={80}
-                  loading="lazy"
-                  class="aspect-square h-24 w-24 shrink-0 object-cover md:h-28 md:w-28 xl:h-32 xl:w-32"
-                />
-
-                <div class="min-w-0 flex-1">
-                  <p class="text-lg leading-snug tracking-[0.02em] text-neutral-900 xl:text-xl">{item.name}</p>
-                  <p class="mt-1.5 text-sm leading-relaxed text-neutral-600 xl:text-base">{item.note}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-
-    <!-- Order prompt -->
-    <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 md:mt-16">
-      <a
-        href={drivuUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex min-h-12 items-center bg-[#7a5c34] px-8 text-sm uppercase tracking-[0.2em] text-cream
-               transition-colors hover:bg-[#5c4426]
-               md:min-h-14 md:px-10 md:text-base xl:min-h-16 xl:px-12
-               focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#7a5c34]"
-      >
-        Order on Drivu
-      </a>
-      <a
-        href="#order-section"
-        class="inline-flex min-h-12 items-center text-sm uppercase tracking-[0.2em] text-[#7a5c34]
-               underline decoration-[#7a5c34]/40 underline-offset-8 transition hover:decoration-[#7a5c34]
-               md:min-h-14 md:text-base"
-      >
-        Delivery options
-      </a>
-    </div>
-  </div>
-</section>
-
-<!--
-  astro.config.mjs — allow Astro to fetch and optimise the Drivu photos at build time:
-
-  export default defineConfig({
-    image: {
-      domains: ['drivu.s3.eu-west-1.amazonaws.com'],
-    },
-  });
--->
+  </section>
+)}
