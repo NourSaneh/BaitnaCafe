@@ -1,6 +1,6 @@
-name: "Smoked Turkey & Dijon"
+name: Smoked Turkey & Dijon
 category: sandwiches
-note: "Smoked turkey with Dijon mustard"
+note: Smoked turkey with Dijon mustard
 image: ../../assets/menu/smoked-turkey-dijon/image.jpg
 order: 3
-visible: true
+visible: false
