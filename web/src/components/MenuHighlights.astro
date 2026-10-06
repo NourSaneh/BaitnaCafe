@@ -17,9 +17,8 @@ const categoryInfo = [
   { key: 'desserts', title: 'Desserts & Pastries', subtitle: 'Baked fresh, best with coffee' },
   { key: 'sandwiches', title: 'Sandwiches', subtitle: 'Made to order, all day' },
 ];
-
 const items = (await getCollection('menu'))
-  .filter(({ data }) => data.visible !== false)
+  .filter(({ data }) => data.visible === true)
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 
 const categories = categoryInfo

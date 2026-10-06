@@ -12,6 +12,7 @@ const events = defineCollection({
       bookingUrl: z.string().nullish(),     // optional
       endDate: z.coerce.date().nullish(),   // optional: hide after this date
       order: z.number().nullish(),          // optional: lower = shows first
+      visible: z.boolean().optional(),
     }),
 });
 
@@ -24,7 +25,7 @@ const menu = defineCollection({
       note: z.string().optional(),
       image: image(),
       order: z.number().nullable().optional(),
-      visible: z.boolean().default(true),
+      visible: z.boolean().optional(),
     }),
 });
 

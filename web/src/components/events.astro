@@ -5,9 +5,9 @@ import { getCollection } from 'astro:content';
 // Start of today, so an event ending today stays visible all day
 const today = new Date();
 today.setHours(0, 0, 0, 0);
-
 const events = (await getCollection('events'))
-  .filter(({ data }) => !data.endDate || data.endDate >= today) // hide finished events
+  .filter(({ data }) => data.visible !== false)                       // hidden in Keystatic
+  .filter(({ data }) => !data.endDate || data.endDate >= today)       // past end date
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 ---
 
