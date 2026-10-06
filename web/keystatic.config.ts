@@ -54,5 +54,39 @@ export default config({
         }),
       },
     }),
+menu: collection({
+  label: 'Menu highlights',
+  slugField: 'name',
+  path: 'src/content/menu/*',
+  format: { data: 'yaml' },
+  schema: {
+    name: fields.slug({ name: { label: 'Item name' } }),
+    category: fields.select({
+      label: 'Category',
+      options: [
+        { label: 'Drinks', value: 'drinks' },
+        { label: 'Desserts & Pastries', value: 'desserts' },
+        { label: 'Sandwiches', value: 'sandwiches' },
+      ],
+      defaultValue: 'drinks',
+    }),
+    note: fields.text({
+      label: 'Short description',
+      description: 'One line, under 60 characters',
+      validation: { length: { max: 60 } },
+    }),
+    image: fields.image({
+      label: 'Photo',
+      description: 'Square photo works best',
+      directory: 'src/assets/menu',
+      publicPath: '../../assets/menu/',
+      validation: { isRequired: true },
+    }),
+    order: fields.integer({ label: 'Order (1 = first)', defaultValue: 1 }),
+    visible: fields.checkbox({ label: 'Show on website', defaultValue: true }),
+  },
+}),
+    
+
   },
 });

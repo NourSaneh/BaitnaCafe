@@ -15,4 +15,17 @@ const events = defineCollection({
     }),
 });
 
-export const collections = { events };
+const menu = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/menu' }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      category: z.enum(['drinks', 'desserts', 'sandwiches']),
+      note: z.string().optional(),
+      image: image(),
+      order: z.number().nullable().optional(),
+      visible: z.boolean().default(true),
+    }),
+});
+
+export const collections = { events, menu };
