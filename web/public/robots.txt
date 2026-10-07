@@ -1,0 +1,8 @@
+# Search engines and AI assistants are welcome to read the site
+User-agent: *
+Allow: /
+Disallow: /keystatic
+Disallow: /admin
+Disallow: /api/keystatic
+
+Sitemap: https://baitna-cafe-pied.vercel.app/sitemap-index.xml

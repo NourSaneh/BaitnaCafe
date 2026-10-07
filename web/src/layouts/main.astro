@@ -1,10 +1,43 @@
 ---
 import '../styles/global.css';
+import { business as b } from '../data/business';
 
 const title = 'Baitna Cafe | Your home above Sharjah';
-const description =
-  'Rooftop café on the 30th floor in Al Mamzar, Sharjah. Specialty coffee, fresh bites and skyline views. Open daily 8 am – 2 am.';
-const siteUrl = 'https://baitna-cafe-pied.vercel.app';
+const siteUrl = Astro.site?.href ?? 'https://baitna-cafe-pied.vercel.app/';
+const ogImage = new URL('/og-image.jpg', siteUrl).href;
+
+// Tells Google (and AI search) what the café is: address, hours, menu, booking
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CafeOrCoffeeShop',
+  name: b.name,
+  alternateName: b.nameArabic,
+  description: b.description,
+  url: siteUrl,
+  image: ogImage,
+  telephone: b.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: b.address.street,
+    addressLocality: b.address.area,
+    addressRegion: b.address.city,
+    addressCountry: b.address.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: b.geo.lat, longitude: b.geo.lng },
+  hasMap: b.mapUrl,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: b.opens,
+      closes: b.closes,
+    },
+  ],
+  servesCuisine: ['Coffee', 'Desserts', 'Sandwiches'],
+  hasMenu: b.menuUrl,
+  acceptsReservations: b.reserveUrl,
+  sameAs: b.social,
+};
 ---
 
 <!doctype html>
@@ -13,19 +46,25 @@ const siteUrl = 'https://baitna-cafe-pied.vercel.app';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={`${siteUrl}/`} />
+    <meta name="description" content={b.description} />
+    <link rel="canonical" href={siteUrl} />
     <link rel="icon" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- WhatsApp / Instagram / Facebook preview -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={b.name} />
+    <meta property="og:locale" content="en_AE" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Rooftop café on the 30th floor. Open daily 8 am – 2 am." />
-    <meta property="og:url" content={`${siteUrl}/`} />
-    <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Baitna Cafe interior overlooking Sharjah" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
     <slot />
