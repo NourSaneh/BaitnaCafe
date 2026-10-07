@@ -9,7 +9,7 @@ import Nav from './nav.astro';
 const reserveUrl =
   'https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2';
 
-// Add more drinks here — the arrows will cycle through all of them
+// Add more drinks or bites here — the arrows will cycle through all of them
 const drinks = [
   { src: cloudMatcha, alt: 'Iced cloud matcha' },
   { src: chocolateDrink, alt: 'Iced chocolate' },
@@ -91,6 +91,7 @@ const drinks = [
           loading="eager"
           draggable="false"
           data-drink
+          aria-hidden={i === 0 ? undefined : 'true'}
           class:list={[
             'absolute inset-0 h-full w-full object-contain drop-shadow-xl',
             i === 0 ? 'opacity-100' : 'opacity-0',
@@ -120,7 +121,7 @@ const drinks = [
         <button
           id="drink-next"
           type="button"
-          aria-label="Next drink"
+          aria-label="Next item"
           class="pointer-events-auto absolute right-[4%] top-[12%] rounded-full bg-[#5C4033]/85 p-2 text-white shadow-lg ring-2 ring-white/40 transition hover:scale-110 hover:bg-[#5C4033] md:p-3"
         >
           <svg class="h-8 w-8 md:h-10 md:w-10" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
@@ -133,7 +134,7 @@ const drinks = [
         <button
           id="drink-prev"
           type="button"
-          aria-label="Previous drink"
+          aria-label="Previous item"
           class="pointer-events-auto absolute bottom-[12%] left-[4%] rounded-full bg-[#5C4033]/85 p-2 text-white shadow-lg ring-2 ring-white/40 transition hover:scale-110 hover:bg-[#5C4033] md:p-3"
         >
           <svg class="h-8 w-8 rotate-180 md:h-10 md:w-10" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
@@ -190,6 +191,10 @@ const drinks = [
     const outgoing = drinks[current];
     current = (current + dir + drinks.length) % drinks.length;
     const incoming = drinks[current];
+
+    // Screen readers only announce the item that's showing
+    outgoing.setAttribute('aria-hidden', 'true');
+    incoming.removeAttribute('aria-hidden');
 
     outgoing.animate(
       [

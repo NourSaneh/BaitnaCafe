@@ -1,13 +1,19 @@
-# Astro with Tailwind
+# Baitna Cafe website
+
+One-page site for Baitna Cafe, a rooftop café in Al Mamzar, Sharjah. Built with Astro and Tailwind, deployed on Vercel.
+
+## Editing content
+
+The owner edits events and menu highlights at `/admin` (Keystatic). Saves go to GitHub and Vercel redeploys automatically.
+
+- Events: `src/content/events/` — set "Hide after" so an event disappears once it's over (it is removed on the next deploy)
+- Menu highlights: `src/content/menu/`
+- Café details for search engines and `/llms.txt`: `src/data/business.ts`
+
+## Development
 
 ```sh
-npm create astro@latest -- --template with-tailwindcss
+npm install
+npm run dev      # http://localhost:4321
+npm run build
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/with-tailwindcss)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/with-tailwindcss/devcontainer.json)
-
-Astro comes with [Tailwind](https://tailwindcss.com) support out of the box. This example showcases how to style your Astro project with Tailwind.
-
-For complete setup instructions, please see our [Tailwind Styling Guide](https://docs.astro.build/en/guides/styling/#tailwind).

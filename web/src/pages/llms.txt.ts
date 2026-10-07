@@ -10,12 +10,11 @@ const categoryTitles = {
   drinks: 'Drinks',
   desserts: 'Desserts & pastries',
   sandwiches: 'Sandwiches',
-  salads: 'Salads',
 } as const;
 
 export const GET: APIRoute = async ({ site }) => {
   const menu = (await getCollection('menu'))
-    .filter(({ data }) => data.visible === true)
+    .filter(({ data }) => data.visible !== false)
     .sort((x, y) => (x.data.order ?? 99) - (y.data.order ?? 99));
 
   const today = new Date();
