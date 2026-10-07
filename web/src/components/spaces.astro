@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import nightView from '../assets/NightView.jpg';
 import cafeView from '../assets/cafeview.mp4';
+import cafeViewPoster from '../assets/cafeview-poster.jpg';
 
 const reserveUrl =
   'https://ae.dyneapp.io/reservations/285829b0-5e4b-11f0-a785-c55a8f5bd3a2?utm_source=website&utm_medium=referral&utm_content=story_section';
@@ -34,6 +35,7 @@ const reserveUrl =
         <div class="w-full overflow-hidden">
           <video
             src={cafeView}
+            poster={cafeViewPoster.src}
             autoplay
             muted
             loop

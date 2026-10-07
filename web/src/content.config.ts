@@ -21,7 +21,7 @@ const menu = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      category: z.enum(['drinks', 'desserts', 'sandwiches', 'salads']),
+      category: z.enum(['drinks', 'desserts', 'sandwiches']),
       note: z.string().optional(),
       image: image(),
       order: z.number().nullable().optional(),
