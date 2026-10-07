@@ -1,0 +1,66 @@
+---
+// Shown for any address that doesn't exist (old links, typos)
+import { Image } from 'astro:assets';
+import Layout from '../layouts/main.astro';
+import Nav from '../components/nav.astro';
+import herobg from '../assets/herobg.jpg';
+import { business } from '../data/business';
+---
+
+<Layout title="Page not found | Baitna Cafe" noindex>
+  <main class="relative flow-root min-h-svh">
+    <Image
+      src={herobg}
+      alt=""
+      width={1920}
+      quality={80}
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-black/60"></div>
+
+    <Nav />
+
+    <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center px-5 pt-24 pb-20 text-center text-cream md:pt-32">
+      <p class="text-sm uppercase tracking-[0.3em] text-cream/80">Error 404</p>
+      <h1 class="font-display mt-4 text-4xl leading-tight tracking-[0.04em] md:text-6xl">
+        This table isn't available
+      </h1>
+      <p class="mt-5 max-w-[40ch] text-lg leading-relaxed text-cream/90">
+        The page you're looking for doesn't exist or has moved. Our coffee is still right where it was.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+        <a
+          href="/"
+          class="inline-flex min-h-12 items-center bg-cream px-8 text-sm uppercase tracking-[0.2em] text-[#3b2a1f]
+                 transition hover:bg-white md:min-h-14 md:px-10 md:text-base
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+        >
+          Back to home
+        </a>
+        <a
+          href={business.reserveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center text-sm uppercase tracking-[0.2em] text-cream
+                 underline decoration-cream/50 underline-offset-8 transition hover:decoration-cream
+                 md:min-h-14 md:text-base
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+        >
+          Reserve a table
+        </a>
+        <a
+          href={business.menuUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center text-sm uppercase tracking-[0.2em] text-cream
+                 underline decoration-cream/50 underline-offset-8 transition hover:decoration-cream
+                 md:min-h-14 md:text-base
+                 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream"
+        >
+          See the menu
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
