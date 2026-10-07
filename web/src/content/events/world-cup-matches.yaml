@@ -1,7 +1,9 @@
 title: World Cup Matches
 dateLabel: Sunday 20 September
-description: Elevate your day with unforgettable memories while watching your favourite team!
+description: >-
+  Elevate your day with unforgettable memories while watching your favourite
+  team!
 image: ../../assets/events/world-cup-matches/image.png
 bookingUrl: https://www.instagram.com/p/DZ5STM3AlZt/?hl=en
-endDate: 2026-09-20
 order: 3
+visible: true
