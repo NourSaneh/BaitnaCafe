@@ -2,7 +2,12 @@
 import '../styles/global.css';
 import { business as b } from '../data/business';
 
-const title = 'Baitna Cafe | Your home above Sharjah';
+interface Props {
+  title?: string;
+  noindex?: boolean; // e.g. the 404 page: keep it out of Google
+}
+
+const { title = 'Baitna Cafe | Your home above Sharjah', noindex = false } = Astro.props;
 const siteUrl = Astro.site?.href ?? 'https://baitna-cafe-pied.vercel.app/';
 const ogImage = new URL('/og-image.jpg', siteUrl).href;
 
@@ -47,7 +52,7 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={b.description} />
-    <link rel="canonical" href={siteUrl} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={siteUrl} />}
     <link rel="icon" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -64,7 +69,7 @@ const structuredData = {
     <meta property="og:image:alt" content="Baitna Cafe interior overlooking Sharjah" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
   </head>
   <body>
     <slot />
