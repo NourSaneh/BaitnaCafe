@@ -64,7 +64,6 @@ Baitna Cafe has a strong Instagram presence and is listed on delivery and bookin
 | Styling | [Tailwind CSS](https://tailwindcss.com) v4 |
 | Content editing | [Keystatic](https://keystatic.com) (Keystatic Cloud in production, local files in development) |
 | Hosting | [Vercel](https://vercel.com) |
-| Fonts | Jost (self-hosted via Fontsource) |
 
 ## Project structure
 
@@ -81,16 +80,6 @@ web/
 └── astro.config.mjs
 ```
 
-## Running locally
-
-Requires Node.js 22.12 or newer.
-
-```sh
-cd web
-npm install
-npm run dev        # http://localhost:4321  —  editor at /keystatic
-npm run build      # production build
-```
 
 In development the editor saves to local files; in production it saves through Keystatic Cloud to this repository.
 
