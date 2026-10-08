@@ -33,6 +33,9 @@ Baitna Cafe has a strong Instagram presence and is listed on delivery and bookin
 
 ## Screenshots
 
+**Coffee with a view** — the rooftop at night, a looping video of the café and a second "Reserve a table" button.
+![Story section](docs/screenshots/desktop-story.jpg)
+
 **Events** — managed by staff in the editor; cards stay centred whether there are one, two or more.
 ![Events section](docs/screenshots/desktop-events.jpg)
 
