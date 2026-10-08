@@ -8,7 +8,7 @@ The owner edits events and menu highlights at `/admin` (Keystatic). Saves go to 
 
 - Events: `src/content/events/` — set "Hide after" so an event disappears once it's over (it is removed on the next deploy)
 - Menu highlights: `src/content/menu/`
-- Café details for search engines and `/llms.txt`: `src/data/business.ts`
+- Café details used in the page head and 404 page: `src/data/business.ts`
 
 ## Development
 

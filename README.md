@@ -28,7 +28,7 @@ Baitna Cafe has a strong Instagram presence and is listed on delivery and bookin
 | **Reserve a table** in one tap (Dyne) | Bookings and orders go straight to the apps the café already uses |
 | **Order** on Drivu (drive-thru) or noon (delivery) | Staff update events and menu from a browser — no code |
 | Current events with "Book now" links | Past events hide themselves after their end date |
-| Signature drinks, desserts and sandwiches | Structured data so Google and AI assistants get the facts right |
+| Signature drinks, desserts and sandwiches | Staff can hide menu items without deleting them |
 | Call or WhatsApp straight from the footer | Branded preview when the link is shared on WhatsApp or Instagram |
 
 ## Screenshots
@@ -49,11 +49,7 @@ Baitna Cafe has a strong Instagram presence and is listed on delivery and bookin
 
 - **Editable without a developer** — [Keystatic](https://keystatic.com) gives the café a visual editor for events and menu highlights. Saving commits to GitHub and the site redeploys automatically.
 - **Fast on phones** — pages are pre-rendered as plain HTML. Images are resized and converted to WebP at build time (the largest photo went from 2.1 MB to 168 KB), and the café video was re-encoded from 5.8 MB to 3.3 MB with a poster frame.
-- **Local SEO built in**
-  - `CafeOrCoffeeShop` structured data: address, map coordinates, opening hours, phone, menu, reservations, social profiles and the Arabic name
-  - Automatic sitemap, `robots.txt` that keeps the editor out of search, canonical URL and meta description
-  - Open Graph image for rich link previews
-- **AI-readable** — `/llms.txt` is generated at build time from the same menu and events content, giving AI assistants a clean, current summary of the café.
+- **Rich link previews** — an Open Graph image, title and description so shared links show a proper card on WhatsApp and Instagram.
 - **Accessible** — keyboard focus styles, reduced-motion support, labelled controls, a mobile menu that closes with Escape, and a drink slider that only announces the visible item to screen readers.
 - **Branded 404 page** — wrong or old links land on an on-brand page with routes back to the homepage, reservations and menu, kept out of search results.
 
@@ -65,7 +61,6 @@ Baitna Cafe has a strong Instagram presence and is listed on delivery and bookin
 | Styling | [Tailwind CSS](https://tailwindcss.com) v4 |
 | Content editing | [Keystatic](https://keystatic.com) (Keystatic Cloud in production, local files in development) |
 | Hosting | [Vercel](https://vercel.com) |
-| SEO | `@astrojs/sitemap`, JSON-LD structured data, generated `llms.txt` |
 | Fonts | Jost (self-hosted via Fontsource) |
 
 ## Project structure
@@ -75,10 +70,10 @@ web/
 ├── src/
 │   ├── components/      # Hero, nav, story, events, menu, ordering, footer
 │   ├── content/         # Events and menu items (YAML, edited in Keystatic)
-│   ├── data/business.ts # Café details used for SEO and llms.txt
-│   ├── layouts/         # Page shell, meta tags, structured data
-│   └── pages/           # Homepage, 404, llms.txt
-├── public/              # robots.txt, favicon, Open Graph image
+│   ├── data/business.ts # Café name, description and links
+│   ├── layouts/         # Page shell and meta tags
+│   └── pages/           # Homepage and 404 page
+├── public/              # Favicon and Open Graph image
 ├── keystatic.config.ts  # Editor fields for events and menu
 └── astro.config.mjs
 ```
@@ -102,7 +97,7 @@ In development the editor saves to local files; in production it saves through K
 |---|---|
 | Events (title, date, photo, booking link, hide-after date) | `/admin` → Events |
 | Menu highlights (name, category, note, photo, order, visibility) | `/admin` → Menu highlights |
-| Hours, phone, address and links used for SEO | `web/src/data/business.ts` |
+| Site description, booking and menu links | `web/src/data/business.ts` |
 
 ## Author
 
