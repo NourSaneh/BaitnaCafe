@@ -10,7 +10,9 @@ export default defineConfig({
   site: 'https://baitna-cafe-pied.vercel.app', // change to the real domain later
 
   integrations: [react(), keystatic()],
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+  }),
 
   // Easy address for the owner: /admin → /keystatic
   redirects: {
